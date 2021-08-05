@@ -6,35 +6,26 @@ Here is the pipeline to properly assemble a netflow data for analysis:
 ## IF LINK LAYER IS SLL AND NOT ETHERNET:
 You've got to rewrite the pcap file to have Ethernet as its link layer so that the tools can read them.
 
-sudo apt install tcpreplay
+`sudo apt install tcpreplay`
 
-tcprewrite --dlt=enet --infile=linux_sll.pcap  --outfile=enet.pcap 
-
+`tcprewrite --dlt=enet --infile=linux_sll.pcap  --outfile=enet.pcap`
 ## Convert pcap to netflow
-git clone https://salsa.debian.org/debian/nfdump.git
+`git clone https://salsa.debian.org/debian/nfdump.git`
 
-sudo apt-get install libtool	
-
-sudo apt-get install dh-autoreconf	
-
-sudo apt-get install libpcap-dev
-
-sudo apt-get install libghc-bzlib-dev
-
-sudo apt-get install flex
+`sudo apt-get install libtool dh-autoreconf	libpcap-dev	libghc-bzlib-dev flex`
 
 
-cd nfdump
+`cd nfdump`
 
-./configure --enable-sflow --enable-readpcap --enable-nfpcapd
+`./configure --enable-sflow --enable-readpcap --enable-nfpcapd`
 
-make
+`make`
 
-sudo make install
+`sudo make install`
 
-nfpcapd -e 1000,1000 -r <pcap file> -l <out directory>
+`nfpcapd -e 1000,1000 -r <pcap file> -l <out directory>`
 
-nfdump -R <out directory> -o csv > netflow.csv
+`nfdump -R <out directory> -o csv > netflow.csv`
 
 
 
